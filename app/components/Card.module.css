@@ -1,0 +1,35 @@
+/* app/components/Card.module.css */
+.card {
+  background: #ffffff; 
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: transform 0.25s cubic-bezier(0.1, 0.8, 0.2, 1), box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border: 1px solid #eaeaea; 
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.09);
+  border-color: #d1d1d1;
+}
+
+.title {
+  color: #1a1a2e !important; 
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.description {
+  color: #565666 !important; 
+  font-size: 0.95rem;
+}
+
+.stars { 
+  color: #f5a623; 
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
