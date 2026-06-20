@@ -142,6 +142,3 @@ export default function Home() {
   );
 }
 
-git add .
-git commit -m "Added gold beam hover states"
-git push origin main
