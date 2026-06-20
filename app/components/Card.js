@@ -1,32 +1,32 @@
-// app/components/Card.js
-import Image from "next/image";
-import styles from "./Card.module.css";
-import LikeButton from "./LikeButton"; 
+import LikeButton from './LikeButton';
+import styles from './Card.module.css';
 
-export default function Card({ name, blurb, rating, emoji, image }) {
+export default function Card({ name, blurb, rating, emoji, image, price }) {
   return (
-    <article className={styles.card}>
-      {image ? (
-        <Image 
-          src={image} 
-          alt={name} 
-          width={500} /* Higher base resolution for crisp rendering on large screens */
-          height={300} /* Taller bounding box to balance out the wider layout */
-          style={{ 
-            width: "100%", /* Spans full width of your 320px+ grid column track */
-            height: "220px", /* Custom taller crop ratio for a true catalog appearance */
-            objectFit: "cover", 
-            borderRadius: "12px" /* Smooth corner matching for your cards */
-          }} 
-        />
-      ) : (
-        <div className={styles.emoji}>{emoji}</div>
-      )}
-      <h2>{name}</h2>
-      <p style={{ flexGrow: 1 }}>{blurb}</p> {/* Pushes the rating and button cleanly down */}
-      <p className={styles.stars}>{"⭐".repeat(rating)}</p>
-      
-      <LikeButton /> 
-    </article>
+    <div className={styles.card}>
+      {/* Aspect-ratio locked image box */}
+      <div className={styles.imageWrapper}>
+        <img src={image} alt={name} />
+      </div>
+
+      {/* Styled text & spacing layout */}
+      <div className={styles.content}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+          <h3 className={styles.title}>{emoji} {name}</h3>
+          <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: '700', color: '#1a433e', fontSize: '1.05rem' }}>
+            {price}
+          </span>
+        </div>
+        
+        <p className={styles.description}>{blurb}</p>
+        
+        <div className={styles.footer}>
+          <div style={{ color: '#d4be83', fontSize: '1.1rem', letterSpacing: '2px' }}>
+            {'★'.repeat(rating)}
+          </div>
+          <LikeButton />
+        </div>
+      </div>
+    </div>
   );
 }

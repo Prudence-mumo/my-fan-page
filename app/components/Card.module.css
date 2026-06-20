@@ -1,35 +1,62 @@
-/* app/components/Card.module.css */
 .card {
-  background: #ffffff; 
-  border-radius: 20px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-  transition: transform 0.25s cubic-bezier(0.1, 0.8, 0.2, 1), box-shadow 0.25s ease;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(26, 67, 62, 0.04); /* Soft brand-green tint shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  border: 1px solid #eaeaea; 
+  height: 100%; /* Forces all cards in a grid row to stay exactly the same height */
 }
 
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.09);
-  border-color: #d1d1d1;
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(26, 67, 62, 0.12);
+}
+
+/* This container crops images perfectly into a clean restaurant aspect ratio */
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 200px; 
+  background-color: #f5f5f4;
+}
+
+.imageWrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Keeps images from looking stretched or squished */
+}
+
+.content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Pushes the footer row down cleanly to align together */
 }
 
 .title {
-  color: #1a1a2e !important; 
-  font-size: 1.35rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
   font-weight: 700;
+  margin: 0;
+  color: #112926;
 }
 
 .description {
-  color: #565666 !important; 
-  font-size: 0.95rem;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #5a6b68;
+  margin: 0.75rem 0 1.5rem 0;
 }
 
-.stars { 
-  color: #f5a623; 
-  font-size: 1rem;
-  letter-spacing: 1px;
+/* Aligns the stars and like buttons along a perfectly neat axis */
+.footer {
+  margin-top: auto; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #f2f4f3;
+  padding-top: 1rem;
 }

@@ -2,9 +2,10 @@ import "./globals.css";
 import Nav from "./components/Nav";
 
 export const metadata = {
-  title: "My Food Fan Page",
-  description: "A page about the things I love.",
+  title: "Karibu Kitchen | Authentic Kenyan Dining",
+  description: "Experience the finest traditional Kenyan flavors, crafted with modern elegance.",
 };
+
 
 export default function RootLayout({ children }) {
   return (
