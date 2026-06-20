@@ -1,10 +1,9 @@
-"use client"; // Tells Next.js this is an interactive client component
+"use client";
 
 import { useState } from 'react';
 import Image from 'next/image';
 
 export default function Home() {
-  // Original dishes list matching your exact images and descriptions
   const initialDishes = [
     { id: 1, name: 'Savory Fish', desc: 'Perfectly pan-seared or wet-fried tilapia with a golden, crispy skin.', img: '/fish.jpg', emoji: '🐟' },
     { id: 2, name: 'Fresh Green Salad', desc: 'A crisp, refreshing mix of seasonal greens and light dressing.', img: '/salad.jpeg', emoji: '🥗' },
@@ -18,15 +17,11 @@ export default function Home() {
     { id: 10, name: 'Sweet Mandazi', desc: 'Fluffy, golden-brown Kenyan donuts with a hint of warm cardamom.', img: '/mandazi.jpeg', emoji: '🍩' }
   ];
 
-  // Track which dish IDs have been liked
   const [likedDishes, setLikedDishes] = useState({});
+  const [hoveredCardId, setHoveredCardId] = useState(null);
 
-  // Toggles the specific dish state between grey (unliked) and red (liked)
   const toggleLike = (id) => {
-    setLikedDishes((prev) => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
+    setLikedDishes((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
   return (
@@ -43,7 +38,7 @@ export default function Home() {
         </p>
       </header>
 
-      {/* Two-by-Two Centered Layout Container */}
+      {/* Two-Column Centered Layout Container */}
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 2rem' }}>
         <section style={{
           display: 'grid',
@@ -51,54 +46,77 @@ export default function Home() {
           gap: '2.5rem'
         }}>
           {initialDishes.map((dish) => {
-            const isLiked = likedDishes[dish.id]; // Checks if current card is liked
+            const isLiked = likedDishes[dish.id];
+            const isHovered = hoveredCardId === dish.id;
 
             return (
-              <div key={dish.id} style={{
-                backgroundColor: '#ffffff',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.02)',
-                border: '1px solid #f0f2f1',
-                display: 'flex',
-                flexDirection: 'column'
-              }}>
-                {/* Image Container */}
-                <div style={{ position: 'relative', width: '100%', height: '240px' }}>
+              <div 
+                key={dish.id}
+                onMouseEnter={() => setHoveredCardId(dish.id)}
+                onMouseLeave={() => setHoveredCardId(null)}
+                style={{
+                  backgroundColor: '#ffffff',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  border: '1px solid',
+                  
+                  // --- GOLD HOVER BEAM STYLING ---
+                  borderColor: isHovered ? '#d4af37' : '#f0f2f1',
+                  transform: isHovered ? 'translateY(-6px)' : 'translateY(0px)',
+                  boxShadow: isHovered 
+                    ? '0 12px 30px rgba(212, 175, 55, 0.25)' // Golden neon shadow aura
+                    : '0 4px 20px rgba(0, 0, 0, 0.02)',
+                  
+                  transition: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)'
+                }}
+              >
+                {/* Image Container with continuous zoom logic */}
+                <div style={{ position: 'relative', width: '100%', height: '240px', overflow: 'hidden' }}>
                   <Image 
                     src={dish.img} 
                     alt={dish.name} 
                     fill 
-                    style={{ objectFit: 'cover' }}
+                    style={{ 
+                      objectFit: 'cover',
+                      transform: isHovered ? 'scale(1.03)' : 'scale(1)',
+                      transition: 'transform 0.4s ease'
+                    }}
                   />
                 </div>
                 
-                {/* Content Block */}
-                <div style={{ padding: '1.5rem', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ marginBottom: '1.5rem' }}>
+                {/* Content Details Block */}
+                <div style={{ padding: '1.5rem', flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
                       <span style={{ fontSize: '1.1rem' }}>{dish.emoji}</span>
-                      <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#1a3636' }}>
+                      
+                      {/* --- GREEN HOVER TEXT STYLING --- */}
+                      <h3 style={{ 
+                        fontSize: '1.25rem', 
+                        fontWeight: '700', 
+                        // Turns bright brand green on hover, keeps dark neutral green otherwise
+                        color: isHovered ? '#004d40' : '#1a3636', 
+                        transition: 'color 0.2s ease'
+                      }}>
                         {dish.name}
                       </h3>
                     </div>
-                    <p style={{ fontSize: '0.9rem', color: '#6e7e71', lineHeight: '1.6' }}>
+                    <p style={{ fontSize: '0.9rem', color: '#6e7e71', lineHeight: '1.6', marginBottom: '1.5rem' }}>
                       {dish.desc}
                     </p>
                   </div>
                   
-                  {/* Card Bottom Row */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f5f7f6', paddingTop: '1rem', marginTop: 'auto' }}>
+                  {/* Bottom Interaction Row */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f5f7f6', paddingTop: '1rem' }}>
                     <span style={{ color: '#d4af37', fontSize: '0.9rem', letterSpacing: '2px' }}>★★★★★</span>
-                    
-                    {/* Interactive Like Button */}
                     <button 
                       onClick={() => toggleLike(dish.id)}
                       style={{ 
                         padding: '0.4rem 1.1rem', 
                         border: '1px solid #eef1f0', 
                         borderRadius: '20px', 
-                        // Automatically switches text background and colors depending on state
                         backgroundColor: isLiked ? '#ffeeef' : '#fbfbfa', 
                         color: isLiked ? '#dc2626' : '#4a5a4d',
                         cursor: 'pointer', 
@@ -106,7 +124,7 @@ export default function Home() {
                         fontWeight: '600',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '6px',
+                        gap: '4px',
                         transition: 'all 0.2s ease'
                       }}
                     >
@@ -123,3 +141,7 @@ export default function Home() {
     </main>
   );
 }
+
+git add .
+git commit -m "Added gold beam hover states"
+git push origin main
